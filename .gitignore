@@ -1,0 +1,15 @@
+# Virtual Environment
+venv/
+
+# Security - Do not commit keys or signatures
+*.pem
+*.sig
+
+# Python caching
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE / OS files
+.DS_Store
+.vscode/

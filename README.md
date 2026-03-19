@@ -1,65 +1,54 @@
-# 🛡️ TrustVerify: CLI File Integrity Tool
+# TrustVerify - CLI Tool for File Integrity
 
-**TrustVerify** is a Python-based Command Line Interface (CLI) application designed to ensure the **Integrity** and **Authenticity** of files. By combining SHA-256 hashing algorithms with RSA digital signatures, it allows users to detect unauthorized modifications and verify the true origin of data.
+TrustVerify is a Python-based CLI tool that allows a "Sender" to sign a file and a "Receiver" to verify its integrity and origin using hashing (SHA-256) and digital signatures (RSA).
 
----
+## Setup
+### 1. Create Virtual Environment
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
 
-## 👥 The Team: CipherRoots
-This project was developed by the **CipherRoots** team:
-* **Şeyma Bayram**
-* **Mustafa Berkay Karagöz**
-* **Kerim Taşkın**
-
----
-
-## 🚀 Key Features
-
-### Part 1: Hashing and Local Integrity
-* **SHA-256 Generation:** Generates a unique cryptographic hash for any file type (Text, PDF, Image).
-* **Manifest Generator:** Scans a directory and creates a `metadata.json` file containing filenames and their respective hashes.
-* **Integrity Check:** Compares the current state of files against the manifest to detect data poisoning or tampering.
-
-### Part 2: Digital Signatures (RSA)
-* **Key Management:** Uses the `cryptography` library to generate secure Public/Private key pairs.
-* **Digital Signing:** Takes the SHA-256 hash of the `metadata.json` and encrypts it using the user's Private Key to create a signature.
-* **Verification:** A receiver can use the Sender's Public Key and the signature to verify that the manifest hasn't been altered and truly came from the Sender.
-
----
-
-## 🛠️ Installation & Requirements
-
-This tool requires **Python 3.x**. You will need to install the `cryptography` library:
-
+### 2. Install Dependencies
 ```bash
 pip install cryptography
-Usage Instructions
+```
 
-Generate Keys: Create your RSA key pair for secure communication.
+## Usage Settings
 
-Create Manifest: Scan your target directory to generate the metadata.json hash list.
+### Step 1: Initialize Keys
+Generates a new set of RSA keys (`private_key.pem` and `public_key.pem`).
+```bash
+python trustverify.py init-keys
+```
 
-Sign: Use your Private Key to sign the manifest file.
+### Step 2: Generate Manifest (Sender)
+Generates `metadata.json` mapping all files in `<directory>` to their SHA-256 hashes.
+```bash
+python trustverify.py manifest <directory>
+```
 
-Verify: Use the Public Key and the signature to check the integrity and origin of the files.
+### Step 3: Check Local Files
+Checks local files against `metadata.json` to ensure integrity.
+```bash
+python trustverify.py check <directory>
+```
 
-📝 Technical Report Summary
-The project covers two fundamental cybersecurity concepts:
+### Step 4: Sign the Manifest (Sender)
+Signs the `metadata.json` using the Sender's Private Key, creating `signature.sig`.
+```bash
+python trustverify.py sign <directory> private_key.pem
+```
 
-Why hashing alone isn't enough: While a hash proves a file hasn't changed (Integrity), it doesn't prove who sent it. Anyone can generate a new hash for a malicious file.
+### Step 5: Verify the Signature and Integrity (Receiver)
+Verifies the signature of the `metadata.json` using the Sender's Public Key, and then checks the file integrity against the manifest.
+```bash
+python trustverify.py verify <directory> public_key.pem <directory>/signature.sig
+```
 
-Non-repudiation: Digital signatures link a file to a specific Private Key. Since only the owner has access to their Private Key, they cannot deny having signed the document, ensuring authenticity.
-
-📺 Video Demonstration
-A live demo of the script is available on YouTube. The video includes:
-
-Live Demo: Running the script to sign files.
-
-Tamper Test: Deliberately modifying a file to show a "Verification Failed" result.
-
-Conceptual Explanation: Why Digital Signatures are necessary for Authenticity.
-
-🔗 [Link to Your Unlisted YouTube Video]
-
-Course: Mini Project I
-Submission Date: 29/03/2026
-Status: Completed
+## Live Demo Workflow
+A completely automated test script is provided in `run_tests.sh`.
+```bash
+bash run_tests.sh
+```
+It demonstrates the entire flow, including tampering with a file to show a "Verification Failed" result.
