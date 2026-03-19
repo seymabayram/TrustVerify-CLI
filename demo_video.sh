@@ -17,6 +17,9 @@ clear
 echo -e "${CYAN}==========================================${NC}"
 echo -e "${GREEN}  TrustVerify: File Integrity & Auth Demo ${NC}"
 echo -e "${CYAN}==========================================${NC}"
+echo -e "Team Name: ${GREEN}TrustGuardians${NC}"
+echo -e "Members  : ${CYAN}Seyma Bayram, Kerim Taskin, Mustafa Berkay Karagoz${NC}"
+echo "------------------------------------------------------"
 echo "Welcome! In this Live Demo, we will observe Digital Signature and Hashing algorithms step by step."
 pause
 
