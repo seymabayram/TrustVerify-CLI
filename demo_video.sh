@@ -26,6 +26,7 @@ pause
 echo -e "${CYAN}STEP 1: Generate RSA Key Pair (Public / Private Keys)${NC}"
 echo "+ Executing Command: python trustverify.py init-keys"
 echo "------------------------------------------------------"
+rm -f *.pem
 python trustverify.py init-keys
 ls -lh *.pem
 pause
